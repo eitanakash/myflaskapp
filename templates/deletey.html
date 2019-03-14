@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>Are you sure?  If you choose,  yes this article will delete pemanently</h1>
+  <hr>
+  <table class="table table-striped">
+    <tr>
+      <th> <a href="/dashboard" class="btn btn-primary">no, take me to dashboard</a></th>
+
+      <th>
+        <form action="{{url_for('delete_article', id=id)}}" method="post">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" value="yes I'm sure" class="btn btn-danger">
+          </form>
+        </th>
+    </tr>
+  </table>
+{% endblock %}

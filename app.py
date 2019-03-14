@@ -9,10 +9,11 @@ app = Flask(__name__)
 
 # Config MySQL
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '123456'
-app.config['MYSQL_DB'] = 'myflaskapp'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+app.config['MYSQL_USER'] = 'en'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'myFlaskApp'
+app.config['MYSQL_C' \
+           'URSORCLASS'] = 'DictCursor'
 # init MYSQL
 mysql = MySQL(app)
 
@@ -22,6 +23,8 @@ mysql = MySQL(app)
 @app.route('/')
 def index():
     return render_template('home.html')
+
+
 
 
 # About
@@ -256,6 +259,8 @@ def edit_article(id):
 
     return render_template('edit_article.html', form=form)
 
+
+
 # Delete Article
 @app.route('/delete_article/<string:id>', methods=['POST'])
 @is_logged_in
@@ -275,6 +280,30 @@ def delete_article(id):
     flash('Article Deleted', 'success')
 
     return redirect(url_for('dashboard'))
+
+
+@app.route('/deletey/<string:id>', methods=['GET', 'POST'])
+def deletey(id):
+    return render_template('deletey.html',  id=id)
+ # Create cursor
+    cur = mysql.connection.cursor()
+
+    # Execute
+    cur.execute("DELETE FROM articles WHERE id = %s", [id])
+
+    # Commit to DB
+    mysql.connection.commit()
+
+    #Close connection
+    cur.close()
+
+    flash('Article Deleted', 'success')
+
+    return redirect(url_for('dashboard'))
+
+
+
+
 
 if __name__ == '__main__':
     app.secret_key='secret123'
